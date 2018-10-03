@@ -1,0 +1,1 @@
+Population Size: 1000 	 Vaccination Percentage: 50 	 Virus Name: Melissa 	 Mortality Rate: 0.8 	 Basic Reproduction Number: 1.1 	
