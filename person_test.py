@@ -18,7 +18,7 @@ def test_person_instance():
 
 def test_did_survive_infection():
     # Find out about Mortality Rate
-    virus = Virus('Ebola', 0.8, 0.3)
+    virus = Virus('Ebola', 0.9, 0.1)
     person = Person(925, is_vaccinated=False, infection=virus)
 
     # Check the person instance
@@ -28,10 +28,9 @@ def test_did_survive_infection():
 
     # Check if the person survived the infection
     survived = person.did_survive_infection()
-    print('survived -->', survived)
     if survived:
         assert person.is_alive is True
         assert person.is_vaccinated is True
         assert person.infection is None
-    else: 
+    else:
         assert person.is_alive is False
