@@ -1,5 +1,6 @@
 import io
 import sys
+from person import Person
 
 class Logger(object):
     '''
@@ -45,7 +46,7 @@ class Logger(object):
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
         with open(self.file_name, mode='w') as f:
-            metadata = f'''Population Size: {pop_size} \t Vaccination Percentage: {vacc_percentage} \t Virus Name: {virus_name} \t Mortality Rate: {mortality_rate} \t Basic Reproduction Number: {basic_repro_num} \t'''
+            metadata = f'''Population Size: {pop_size} \t Vaccination Percentage: {vacc_percentage} \t Virus Name: {virus_name} \t Mortality Rate: {mortality_rate} \t Basic Reproduction Number: {basic_repro_num} \t \n'''
             f.write(metadata)
 
     def log_interaction(self, person1, person2, did_infect=None,
@@ -72,7 +73,17 @@ class Logger(object):
         # all the possible edge cases!
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
-        pass
+        with open(self.file_name, mode='a') as f:
+            f.write('Interaction Logs: ')
+            if did_infect:
+                infection_status = str(person1._id) + ' infects ' + str(person2._id) + '\n'
+                f.write(infection_status)
+            elif person2.is_vaccinated:
+                infection_status = str(person1._id) + ' did not infected ' + str(person2._id) + '\n'
+                f.write(infection_status)
+            else:
+                infection_status = str(person1._id) + ' did not infect ' + str(person2._id) + ' because ' + str(person2._id) + ' is already vacinated.' + '\n'
+                f.write(infection_status)
 
     def log_infection_survival(self, person, did_die_from_infection):
         '''
@@ -91,7 +102,13 @@ class Logger(object):
         # on the format of the log.
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
-        pass
+        with open(self.file_name, mode='a') as f:
+            f.write('Infection Survival: ')
+            if not did_die_from_infection:
+                infection_status = str(person._id) + ' survived infection.' + '\n'
+                f.write(infection_status)
+            else:
+                infection_status = str(person._id) + ' died from infection.'
 
     def log_time_step(self, time_step_number):
         '''
@@ -117,4 +134,7 @@ class Logger(object):
         # to compute these statistics for you, as a Logger's job is just to write logs!
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
-        pass
+        with open(self.file_name, mode='a') as f:
+            f.write('Time Steps: ')
+            time_step_status = str(time_step_number) + ' ended -- ' + 'Begin ' + str(time_step_number + 1 + '\n')
+            f.write(time_step_status)

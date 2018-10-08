@@ -23,9 +23,12 @@ def test_write_metadata():
     logger = Logger(file_name)
     logger.write_metadata(1000,50,'Melissa', 0.8, 1.1)
 
-
 def test_log_interaction():
-    pass
+    file_name = 'log_interactions.txt'
+    logger = Logger(file_name)
+    person1 = Person(100, False, None)
+    person2 = Person(50, True, None)
+    logger.log_interaction(person1, person2, did_infect=None, person2_vacc=None, person2_sick=None)
 
 def test_log_infection_survival():
     pass
