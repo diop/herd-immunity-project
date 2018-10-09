@@ -64,15 +64,16 @@ class Simulation(object):
         self.total_infected = 0
         self.current_infected = 0
         self.next_person_id = 0
+        self.vacc_percentage = vacc_percentage
         self.virus_name = virus_name
         self.mortality_rate = mortality_rate
         self.basic_repro_num = basic_repro_num
-        self.file_name = f'''{virus_name}_simulation_pop_{population_size}_vp_{vacc_percentage}_infected_{initial_infected}.txt'''
+        self.file_name = f'{virus_name}_simulation_pop_{population_size}_vp_{vacc_percentage}_infected_{initial_infected}.txt'
 
         # TODO: Create a Logger object and bind it to self.logger.  You should use this
         # logger object to log all events of any importance during the simulation.  Don't forget
         # to call these logger methods in the corresponding parts of the simulation!
-        self.logger = None
+        self.logger = Logger(self.file_name)
 
         # This attribute will be used to keep track of all the people that catch
         # the infection during a given time step. We'll store each newly infected
@@ -82,21 +83,22 @@ class Simulation(object):
         self.newly_infected = []
         # TODO: Call self._create_population() and pass in the correct parameters.
         # Store the array that this method will return in the self.population attribute.
+        self.population = self._create_population(initial_infected)
+
 
     def _create_population(self, initial_infected):
         '''
-        _create_population(self, initial_infected):
-            -- Expects initial_infected as an Int.
-            -- Should be called only once, at the end of the __init__ method.
-            -- Stores all newly created Person objects in a local variable, population.
-            -- Creates all infected person objects first.  Each time a new one is created,
-                increments infected_count variable by 1.
-            -- Once all infected person objects are created, begins creating healthy
-                person objects.  To decide if a person is vaccinated or not, generates
-                a random number between 0 and 1.  If that number is smaller than
-                self.vacc_percentage, new person object will be created with is_vaccinated
-                set to True.  Otherwise, is_vaccinated will be set to False.
-            -- Once len(population) is the same as self.population_size, returns population.
+        -- Expects initial_infected as an Int.
+        -- Should be called only once, at the end of the __init__ method.
+        -- Stores all newly created Person objects in a local variable, population.
+        -- Creates all infected person objects first.  Each time a new one is created,
+            increments infected_count variable by 1.
+        -- Once all infected person objects are created, begins creating healthy
+            person objects.  To decide if a person is vaccinated or not, generates
+            a random number between 0 and 1.  If that number is smaller than
+            self.vacc_percentage, new person object will be created with is_vaccinated
+            set to True.  Otherwise, is_vaccinated will be set to False.
+        -- Once len(population) is the same as self.population_size, returns population.
         '''
         # TODO: Finish this method!  This method should be called when the simulation
         # begins, to create the population that will be used. This method should return
@@ -105,19 +107,31 @@ class Simulation(object):
         # people vaccinated, correct number of initially infected people).
         population = []
         infected_count = 0
-        while len(population) != pop_size:
+        while len(self.population) != self.population_size:
             if infected_count !=  initial_infected:
                 # TODO: Create all the infected people first, and then worry about the rest.
                 # Don't forget to increment infected_count every time you create a
                 # new infected person!
-                pass
+                infected_person = Person(self.next_person_id, True, self.virus_name)
+                self.population.append(infected_person)
+                infected_count += 1
+                self.next_person_id += 1
             else:
                 # Now create all the rest of the people.
                 # Every time a new person will be created, generate a random number between
                 # 0 and 1.  If this number is smaller than vacc_percentage, this person
                 # should be created as a vaccinated person. If not, the person should be
                 # created as an unvaccinated person.
-                pass
+                random_created = random.random()
+                if random_created < self.vacc_percentage:
+                    vaccinated_person = Person(self.next_person_id, True, None)
+                    self.population.append(vaccinated_person)
+                    self.next_person_id += 1
+                else:
+                    non_vaccinated = Person(self.next_person_id, False, None)
+                    self.population.append(non_vaccinated)
+                    self.next_person_id += 1
+
             # TODO: After any Person object is created, whether sick or healthy,
             # you will need to increment self.next_person_id by 1. Each Person object's
             # ID has to be unique!

@@ -7,6 +7,11 @@ import sys
 
 
 # Test Simulation Class
+def test_simulation_instance():
+    simulation = Simulation(1000, 0.1, 'nile_virus', 0.3, 2.1, 10)
+    assert simulation.population_size == 1000
+    assert simulation.virus_name == 'nile_virus'
+
 def test_create_population():
     pass
 
