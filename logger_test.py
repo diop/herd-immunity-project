@@ -22,7 +22,7 @@ def test_write_metadata():
     file_name = 'logs.txt'
     logger = Logger(file_name)
 
-    logger.write_metadata(1000,50,'Melissa', 0.8, 1.1)
+    logger.write_metadata(1000,50,'bulldog', 0.8, 1.1)
 
 def test_log_interaction():
     file_name = 'logs.txt'
@@ -36,7 +36,7 @@ def test_log_interaction():
 def test_log_infection_survival():
     file_name = 'logs.txt'
     logger = Logger(file_name)
-    virus = Virus('Wild One', 0.8, 0.2)
+    virus = Virus('wild_one', 0.8, 0.2)
 
     person1 = Person(2, False, virus)
     person2 = Person(4, True, None)

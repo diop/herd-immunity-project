@@ -144,7 +144,24 @@ class Simulation(object):
         #     - The entire population is dead.
         #     - There are no infected people left in the population.
         # In all other instances, the simulation should continue.
-        pass
+        death_count = 0
+        infected_count = 0
+
+        for person in self.population:
+            if person.is_alive == False:
+                death_count += 1
+
+        for person in self.population:
+            if person.infection:
+                infected_count += 1
+
+        if death_count == len(self.population):
+            return False
+        elif infected_count == 0:
+            return false
+        else:
+            return True
+
 
     def run(self):
         # TODO: Finish this method.  This method should run the simulation until
@@ -153,6 +170,7 @@ class Simulation(object):
         # _simulation_should_continue() to tell us whether or not we should continue
         # the simulation and run at least 1 more time_step.
 
+
         # This method should keep track of the number of time steps that
         # have passed using the time_step_counter variable.  Make sure you remember to
         # the logger's log_time_step() method at the end of each time step, pass in the
@@ -160,13 +178,16 @@ class Simulation(object):
         time_step_counter = 0
         # TODO: Remember to set this variable to an intial call of
         # self._simulation_should_continue()!
-        should_continue = None
+        should_continue = self._simulation_should_continue()
         while should_continue:
         # TODO: for every iteration of this loop, call self.time_step() to compute another
         # round of this simulation.  At the end of each iteration of this loop, remember
         # to rebind should_continue to another call of self._simulation_should_continue()!
-            pass
-        print(f'''The simulation has ended after {time_step_counter} turns.''')
+            self.time_step()
+            log_time_step(time_step_counter)
+            time_step_counter += 1
+            should_continue = self._simulation_should_continue()
+        print(f'The simulation has ended after {time_step_counter} turns.')
 
     def time_step(self):
         # TODO: Finish this method!  This method should contain all the basic logic
@@ -190,6 +211,15 @@ class Simulation(object):
         assert person1.is_alive == True
         assert random_person.is_alive == True
 
+        if random_person.is_vaccinated or random_person.infected
+            self.logger.log_interaction(person, random_person, False, True, False)
+            return
+
+        if random_person.is_vaccinated == False and random_person.is_vaccinated == False:
+            random_num = random.random()
+            if random_num < basic_repro_num:
+                newly_infected.append(random_person._id)
+                self.logger.log_interaction()
         # The possible cases you'll need to cover are listed below:
             # random_person is vaccinated:
             #     nothing happens to random person.
@@ -213,7 +243,13 @@ class Simulation(object):
         #   - Set this Person's .infected attribute to True.
         # NOTE: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list!
-        pass
+        for person in self.newly_infected:
+            for person.id in self.population:
+                person.infected = True
+
+        self.newly_infected
+        self.infected = []
+
 
 if __name__ == '__main__':
     params = sys.argv[1:]
