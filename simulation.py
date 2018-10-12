@@ -26,19 +26,6 @@ class Simulation(object):
 
 
     def _create_population(self, initial_infected):
-        '''
-        -- Expects initial_infected as an Int.
-        -- Should be called only once, at the end of the __init__ method.
-        -- Stores all newly created Person objects in a local variable, population.
-        -- Creates all infected person objects first.  Each time a new one is created,
-            increments infected_count variable by 1.
-        -- Once all infected person objects are created, begins creating healthy
-            person objects.  To decide if a person is vaccinated or not, generates
-            a random number between 0 and 1.  If that number is smaller than
-            self.vacc_percentage, new person object will be created with is_vaccinated
-            set to True.  Otherwise, is_vaccinated will be set to False.
-        -- Once len(population) is the same as self.population_size, returns population.
-        '''
         population = []
         infected_count = 0
         while len(self.population) != self.population_size:
@@ -104,11 +91,11 @@ class Simulation(object):
         assert person1.is_alive == True
         assert random_person.is_alive == True
 
-        if random_person.is_vaccinated or random_person.infected
+        if random_person.is_vaccinated or random_person.infection == False:
             self.logger.log_interaction(person, random_person, False, True, False)
             return
 
-        if random_person.is_vaccinated == False and random_person.is_vaccinated == False:
+        if random_person.is_vaccinated == False and random_person.infection == None:
             random_num = random.random()
             if random_num < basic_repro_num:
                 newly_infected.append(random_person._id)
