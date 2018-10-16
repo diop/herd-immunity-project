@@ -27,7 +27,8 @@ class Logger(object):
                 infection_status = str(person1._id) + ' did not infected ' + str(person2._id) + '\n'
                 f.write(infection_status)
             else:
-                infection_status = str(person1._id) + ' did not infect ' + str(person2._id) + ' because ' + str(person2._id) + ' is vacinated or already sick.' + '\n'
+                infection_status = str(person1._id) + ' did not infect ' + str(person2._id) + ' because ' + str(person2._id) + ' is vaccinated or already sick.' + '\n'
+                print(infection_status)
                 f.write(infection_status)
 
     def log_infection_survival(self, person, did_die_from_infection):
