@@ -7,6 +7,7 @@ from logger import Logger
 class Simulation(object):
     def __init__(self, population_size, vacc_percentage, virus_name,
                  mortality_rate, basic_repro_num, initial_infected=1):
+        self.time_step_counter = 0
         self.population_size = population_size
         self.population = []
         self.total_infected = 0
@@ -71,15 +72,15 @@ class Simulation(object):
 
     def run(self):
         Logger.write_metadata(self, self.population_size, self.vacc_percentage, self.virus_name, self.mortality_rate, self.basic_repro_num)
-        time_step_counter = 0
+        # self.time_step_counter = 0
         should_continue = self._simulation_should_continue()
         print(should_continue)
         while should_continue:
             self.time_step()
-            log_time_step(time_step_counter)
-            time_step_counter += 1
+            self.logger.log_time_step(self.time_step_counter)
+            self.time_step_counter += 1
             should_continue = self._simulation_should_continue()
-        print(f'The simulation has ended after {time_step_counter} turns.')
+        print(f'The simulation has ended after {self.time_step_counter} turns.')
 
     def time_step(self):
         # TODO: Finish this method!  This method should contain all the basic logic
@@ -106,11 +107,10 @@ class Simulation(object):
                     self.interaction(infected_person, random_person)
                     interactions += 1
 
-
         for person in self.population:
-            if person.is_alive and person.infected:
+            if person.is_alive and person.infection == True:
                 self.logger.log_infection_survival(person, person.did_survive_infection(self.mortality_rate))
-        time_step_counter += 1
+        self.time_step_counter += 1
 
     def interaction(self, person, random_person):
         assert person.is_alive == True
@@ -125,7 +125,6 @@ class Simulation(object):
             if random_num < basic_repro_num:
                 self.newly_infected.append(random_person)
                 self.logger.log_interaction(person, random_person)
-
 
     def _infect_newly_infected(self):
         for person in self.newly_infected:

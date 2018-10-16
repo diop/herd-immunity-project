@@ -16,8 +16,7 @@ class Logger(object):
             metadata = f'Population Size: {pop_size} \t Vaccination Percentage: {vacc_percentage} \t Virus Name: {virus_name} \t Mortality Rate: {mortality_rate} \t Basic Reproduction Number: {basic_repro_num} \t \n'
             f.write(metadata)
 
-    def log_interaction(self, person1, person2, did_infect=None,
-                        person2_vacc=None, person2_sick=None):
+    def log_interaction(self, person1, person2, did_infect=None, person2_vacc=None, person2_sick=None):
         with open(self.file_name, mode='a') as f:
             f.write('Interaction Logs: \n')
             if did_infect:
@@ -28,7 +27,7 @@ class Logger(object):
                 f.write(infection_status)
             else:
                 infection_status = str(person1._id) + ' did not infect ' + str(person2._id) + ' because ' + str(person2._id) + ' is vaccinated or already sick.' + '\n'
-                print(infection_status)
+                # print('Infection Status --> ', infection_status)
                 f.write(infection_status)
 
     def log_infection_survival(self, person, did_die_from_infection):
